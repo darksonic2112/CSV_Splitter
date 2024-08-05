@@ -8,7 +8,8 @@ has been reached.
 'keyword_index' represents the column number of the column, where the program looks for the 'keyword_value', a string.
 The 'chunk_size' indicates the number of rows to include in a CSV file.
 In order to not break values that belong together, after the 'chunk_size' has been reached, the program checks for the
-'keyword_value'. When it is found, the CSV file is split and the program begins with a new file. 
+'keyword_value'. When it is found, the CSV file is split and the program begins with a new file.
+If no keyword is provided, the program simply splits the file into chunks of the specified size.
 """
 
 
@@ -40,11 +41,19 @@ def split_csv(file_path: str, output_dir: str, chunk_size: int, keyword_index: i
         writer = csv.writer(file_part)
         writer.writerow(headers)
 
-        # Iterate over rows and write them to new CSV files based on chunk size and keyword
+        # Iterate over rows and write them to new CSV files based on chunk size and optional keyword
         for i, row in enumerate(reader, start=1):
-            if i % chunk_size == 0:
-                wrap_up_file = True
-            if wrap_up_file and row[keyword_index] == keyword_value:
+            if i % chunk_size == 0 and not wrap_up_file:
+                if not keyword_index:
+                    file_part.close()
+                    chunk_number += 1
+                    file_part = open(f"{output_dir}/{filename}_{chunk_number}.csv", 'w', newline='')
+                    writer = csv.writer(file_part)
+                    writer.writerow(headers)
+                else:
+                    wrap_up_file = True
+
+            if wrap_up_file and keyword_index is not None and row[keyword_index] == keyword_value:
                 file_part.close()
                 chunk_number += 1
                 file_part = open(f"{output_dir}/{filename}_{chunk_number}.csv", 'w', newline='')
@@ -62,8 +71,8 @@ if __name__ == "__main__":
     parser.add_argument('file_path', type=str, help='Path to the input CSV file')
     parser.add_argument('output_dir', type=str, help='Directory to save the output CSV files')
     parser.add_argument('chunk_size', type=int, help='Amount of rows inside each CSV file')
-    parser.add_argument('keyword_index', type=int, help='Colum where keyword appears')
-    parser.add_argument('keyword_value', type=str, help='Keyword to look for')
+    parser.add_argument('--keyword_index', type=int, help='Column index where keyword appears (0-based)', default=None)
+    parser.add_argument('--keyword_value', type=str, help='Keyword to look for', default=None)
 
     args = parser.parse_args()
 
