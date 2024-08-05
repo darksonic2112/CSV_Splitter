@@ -71,8 +71,8 @@ if __name__ == "__main__":
     parser.add_argument('file_path', type=str, help='Path to the input CSV file')
     parser.add_argument('output_dir', type=str, help='Directory to save the output CSV files')
     parser.add_argument('chunk_size', type=int, help='Amount of rows inside each CSV file')
-    parser.add_argument('--keyword_index', type=int, help='Column index where keyword appears (0-based)', default=None)
-    parser.add_argument('--keyword_value', type=str, help='Keyword to look for', default=None)
+    parser.add_argument('keyword_index', type=int, help='Column index where keyword appears (0-based)', default=None)
+    parser.add_argument('keyword_value', type=str, help='Keyword to look for', default=None)
 
     args = parser.parse_args()
 
