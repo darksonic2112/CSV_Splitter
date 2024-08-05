@@ -1,6 +1,7 @@
 # CSV splitter in case of very large csv files over ~1.04 million rows and over ~16k columns
 import csv
 import argparse
+import os
 
 
 def split_csv(file_path, output_dir, chunk_size, keyword_index, keyword_value):
@@ -11,7 +12,8 @@ def split_csv(file_path, output_dir, chunk_size, keyword_index, keyword_value):
         headers = next(reader)
         chunk_number = 1
         wrap_up_file = False
-        file_part = open(f"{output_dir}/part_{chunk_number}.csv", 'w', newline='')
+        filename = os.path.splitext(os.path.basename(file_path))[0]
+        file_part = open(f"{output_dir}/{filename}_{chunk_number}.csv", 'w', newline='')
         writer = csv.writer(file_part)
         writer.writerow(headers)
 
@@ -21,7 +23,7 @@ def split_csv(file_path, output_dir, chunk_size, keyword_index, keyword_value):
             if wrap_up_file and row[keyword_index] == keyword_value:
                 file_part.close()
                 chunk_number += 1
-                file_part = open(f"{output_dir}/part_{chunk_number}.csv", 'w', newline='')
+                file_part = open(f"{output_dir}/{filename}_{chunk_number}.csv", 'w', newline='')
                 writer = csv.writer(file_part)
                 writer.writerow(headers)
                 wrap_up_file = False
