@@ -21,11 +21,11 @@ The program can be run from the command line. Use the following syntax:
 python <file_path\csv_splitter.py> <file_path\file_name.csv> <output_dir> <chunk_size> <keyword_index> <keyword_value>
 ```
 Args: 
-        file_path (str): Path to the input CSV file.
-        output_dir (str): Directory to save the output CSV files.
-        chunk_size (int): Number of rows to include in each CSV file.
-        keyword_index (int): Column index to check for the keyword [Optional].
-        keyword_value (str): Keyword to look for in the specified column [Optional].
+- file_path (str): Path to the input CSV file.
+- output_dir (str): Directory to save the output CSV files.
+- chunk_size (int): Number of rows to include in each CSV file.
+- keyword_index (int): Column index to check for the keyword [Optional].
+- keyword_value (str): Keyword to look for in the specified column [Optional].
 
 ## Notes
 - Works only with CSV files.
