@@ -29,7 +29,7 @@ Args:
 
 ## Notes
 - Works only with CSV files.
+- If you get a "[Errno 13]" its likely that a splitted file already exists (due to running and stopping the programm e.g.). Deleting pre existing splits will resolve the issue.
 - The amount of rows inside a CSV file is always:
 chunk_size + amount of rows until keyword is found [Optional] + 1 (for the headder).
 - Make sure that the total number of rows does not exceed 1.048.576.
-  
