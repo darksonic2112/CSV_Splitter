@@ -29,5 +29,7 @@ Args:
 
 ## Notes
 - Works only with CSV files.
-- The amount of rows inside a CSV file is always chunk_size + 1 (for the headder). Make sure that the total number of rows does not exceed 1.048.576.
+- The amount of rows inside a CSV file is always:
+chunk_size + amount of rows until keyword is found [Optional] + 1 (for the headder).
+- Make sure that the total number of rows does not exceed 1.048.576.
   
